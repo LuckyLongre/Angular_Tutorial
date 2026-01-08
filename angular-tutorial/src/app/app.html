@@ -1,11 +1,18 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-900 p-6 text-white">
 	<div class="w-full max-w-md bg-gray-800 rounded-xl shadow-lg p-6">
-		<h1 class="text-center text-2xl font-semibold mb-4">Simple Calculator</h1>
+		<h1 class="text-center text-2xl font-semibold mb-4">Calculator</h1>
 
 		<div class="bg-gray-700 rounded p-4 mb-4 text-right">
 			<div class="text-sm text-gray-300">Expression</div>
 			<div class="text-2xl font-mono text-white">{{ expression() || '0' }}</div>
 			<div class="text-lg text-green-400">{{ result() }}</div>
+		</div>
+
+		<div class="grid grid-cols-4 gap-2 mb-3">
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('sin(')">sin</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('cos(')">cos</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('tan(')">tan</button>
+			<button class="bg-amber-500 hover:bg-amber-400 py-2 rounded" (click)="toggleDegrees()">{{ degrees() ? 'DEG' : 'RAD' }}</button>
 		</div>
 
 		<div class="grid grid-cols-4 gap-2">
@@ -30,7 +37,23 @@
 
 			<button class="bg-gray-700 hover:bg-gray-600 col-span-2 py-3 rounded" (click)="append('0')">0</button>
 			<button class="bg-gray-700 hover:bg-gray-600 py-3 rounded" (click)="append('.')">.</button>
-			<button class="col-span-1 bg-green-600 hover:bg-green-500 text-white py-3 rounded" (click)="evaluate()">=</button>
+			<button class="col-span-1 bg-green-600 hover:bg-green-500 text-white py-3 rounded"
+				(click)="evaluate()">=</button>
+		</div>
+
+		<div class="grid grid-cols-4 gap-2 mt-3">
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('(')">(</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append(')')">)</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('pi')">π</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('e')">e</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('^')">^</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('sqrt(')">√</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('ln(')">ln</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('log(')">log</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('exp(')">exp</button>
+			<button class="bg-gray-700 hover:bg-gray-600 py-2 rounded" (click)="append('!')">!</button>
+			<button class="col-span-2 bg-sky-600 hover:bg-sky-500 text-white py-2 rounded" (click)="toBinary()">To Binary</button>
+			<button class="col-span-2 bg-sky-600 hover:bg-sky-500 text-white py-2 rounded" (click)="fromBinary()">From Binary</button>
 		</div>
 	</div>
 </div>
