@@ -1,0 +1,185 @@
+<div class="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 w-full overflow-x-hidden">
+  <!-- Header -->
+  <div class="pt-6 sm:pt-10 md:pt-12 pb-6 sm:pb-8 px-3 sm:px-4 md:px-6 animate-fade-in text-center max-w-7xl mx-auto w-full">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-linear-to-r from-cyan-400 via-indigo-400 to-violet-400 bg-clip-text text-transparent animate-pulse mb-2 px-2">✨ Task Master Pro</h1>
+    <div class="h-0.5 sm:h-1 w-16 sm:w-24 bg-linear-to-r from-cyan-500 to-indigo-500 mx-auto rounded-full mb-3 sm:mb-4"></div>
+    <p class="text-slate-300 text-sm sm:text-base md:text-lg lg:text-xl font-light italic px-2">Advanced task management with real-time expiry tracking</p>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 pb-8 sm:pb-12 w-full">
+    <!-- Input Section -->
+    <div class="mb-6 sm:mb-8 transform transition-all duration-300 hover:scale-100 sm:hover:scale-105">
+      <div class="relative bg-linear-to-r from-indigo-600 to-cyan-600 p-0.5 rounded-xl shadow-2xl">
+        <div class="bg-slate-800 rounded-xl p-3 sm:p-4 md:p-6 backdrop-blur-md">
+          <div class="flex flex-col gap-3 sm:gap-4 md:gap-3 mb-4 sm:mb-4">
+            <input
+              type="text"
+              placeholder="🔍 Add a new task..."
+              [ngModel]="newTask()"
+              (ngModelChange)="newTask.set($event)"
+              class="w-full bg-slate-700 text-white placeholder-slate-400 border border-slate-600 rounded px-3 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-all focus:ring-2 focus:ring-cyan-400/20"
+            />
+            <button
+              (click)="addTask()"
+              class="w-full sm:w-auto bg-linear-to-r from-indigo-600 via-cyan-600 to-teal-600 hover:from-indigo-700 hover:via-cyan-700 hover:to-teal-700 text-white font-bold py-2.5 sm:py-3 px-6 sm:px-8 rounded-lg transition-all duration-300 transform hover:scale-100 sm:hover:scale-110 hover:shadow-lg hover:shadow-cyan-600/40 active:scale-95 text-sm sm:text-base"
+            >
+              ➕ Add Task
+            </button>
+          </div>
+
+          <!-- Options Grid - Responsive -->
+          <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
+            <div>
+              <label class="text-slate-400 text-xs font-semibold block mb-1.5 sm:mb-2">Priority</label>
+              <select [ngModel]="newTaskPriority()" (ngModelChange)="newTaskPriority.set($event)" class="w-full bg-slate-700 text-white border border-slate-600 rounded px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-all focus:ring-2 focus:ring-cyan-400/20">
+                <option value="low">🟢 Low</option>
+                <option value="medium">🟡 Med</option>
+                <option value="high">🔴 High</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-slate-400 text-xs font-semibold block mb-1.5 sm:mb-2">Category</label>
+              <select [ngModel]="newTaskCategory()" (ngModelChange)="newTaskCategory.set($event)" class="w-full bg-slate-700 text-white border border-slate-600 rounded px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-all focus:ring-2 focus:ring-cyan-400/20">
+                <option value="Personal">Personal</option>
+                <option value="Work">Work</option>
+                <option value="Shopping">Shop</option>
+                <option value="Health">Health</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-slate-400 text-xs font-semibold block mb-1.5 sm:mb-2">Expires</label>
+              <select [ngModel]="expiryHours()" (ngModelChange)="expiryHours.set($event)" class="w-full bg-slate-700 text-white border border-slate-600 rounded px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-all focus:ring-2 focus:ring-cyan-400/20">
+                <option [value]="1">1h</option>
+                <option [value]="6">6h</option>
+                <option [value]="12">12h</option>
+                <option [value]="24">24h</option>
+                <option [value]="48">48h</option>
+                <option [value]="72">3d</option>
+              </select>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="text-slate-400 text-xs font-semibold block mb-1.5 sm:mb-2">Search</label>
+              <input
+                type="text"
+                placeholder="🔍 Search..."
+                [ngModel]="searchQuery()"
+                (ngModelChange)="searchQuery.set($event)"
+                class="w-full bg-slate-700 text-white placeholder-slate-400 border border-slate-600 rounded px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-all focus:ring-2 focus:ring-cyan-400/20"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters & Sort - Responsive -->
+    <div class="mb-6 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-2 items-start sm:items-center sm:justify-between bg-slate-800 rounded-lg p-3 sm:p-4 border border-slate-700 hover:border-cyan-700/50 transition-all">
+      <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+        <button (click)="filterType.set('all')" [class.active]="filterType() === 'all'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap"
+          [ngClass]="filterType() === 'all' ? 'bg-linear-to-r from-indigo-600 to-cyan-600 text-white shadow-lg shadow-cyan-600/30' : 'bg-slate-700 text-slate-300 hover:text-white'">
+          📋 All ({{ tasks().length }})
+        </button>
+        <button (click)="filterType.set('active')" [class.active]="filterType() === 'active'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap"
+          [ngClass]="filterType() === 'active' ? 'bg-linear-to-r from-indigo-600 to-cyan-600 text-white shadow-lg shadow-cyan-600/30' : 'bg-slate-700 text-slate-300 hover:text-white'">
+          ✅ Active ({{ pendingCount() }})
+        </button>
+        <button (click)="filterType.set('completed')" [class.active]="filterType() === 'completed'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap"
+          [ngClass]="filterType() === 'completed' ? 'bg-linear-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-600/30' : 'bg-slate-700 text-slate-300 hover:text-white'">
+          ✔️ Done ({{ completedCount() }})
+        </button>
+        <button (click)="filterType.set('expired')" [class.active]="filterType() === 'expired'" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-300 whitespace-nowrap"
+          [ngClass]="filterType() === 'expired' ? 'bg-linear-to-r from-rose-600 to-red-600 text-white shadow-lg shadow-rose-600/30' : 'bg-slate-700 text-slate-300 hover:text-white'">
+          ⏰ Exp ({{ expiredCount() }})
+        </button>
+      </div>
+
+      <select [ngModel]="sortBy()" (ngModelChange)="sortBy.set($any($event))" class="w-full sm:w-auto bg-slate-700 text-white border border-slate-600 rounded px-3 py-1.5 sm:py-2 text-xs sm:text-sm focus:border-cyan-400 focus:outline-none transition-all focus:ring-2 focus:ring-cyan-400/20">
+        <option value="created">Sort by: Created</option>
+        <option value="expiry">Sort by: Expiry</option>
+        <option value="priority">Sort by: Priority</option>
+      </select>
+    </div>
+
+    <!-- Bulk Actions Bar -->
+    <div *ngIf="tasks().length > 0" class="mb-6 flex flex-col sm:flex-row gap-2 sm:gap-3 items-start sm:items-center justify-between bg-gray-800 rounded-lg p-3 sm:p-4 border border-gray-700">
+      <p class="text-gray-300 text-xs sm:text-sm font-medium">
+        <span class="text-blue-400 font-bold">{{ completedCount() }}</span> completed •
+        <span class="text-green-400 font-bold">{{ pendingCount() }}</span> pending •
+        <span class="text-red-400 font-bold">{{ expiredCount() }}</span> expired
+      </p>
+      <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+        <button
+          *ngIf="completedCount() > 0"
+          (click)="deleteCompleted()"
+          class="flex-1 sm:flex-auto px-3 sm:px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95"
+        >
+          🧹 Clear Completed
+        </button>
+        <button
+          *ngIf="tasks().length > 0"
+          (click)="clearAll()"
+          class="flex-1 sm:flex-auto px-3 sm:px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95"
+        >
+          ⚠️ Clear All
+        </button>
+      </div>
+    </div>
+
+    <!-- Task List - Responsive -->
+    <div class="space-y-2 sm:space-y-3">
+      <div *ngFor="let task of filteredTasks(); let i = index" class="group bg-linear-to-r from-slate-800 to-slate-700 rounded-lg sm:rounded-xl p-3 sm:p-5 shadow-lg border border-slate-700 hover:border-cyan-600/50 transition-all duration-300 transform hover:scale-100 sm:hover:scale-105 hover:shadow-cyan-600/20 animate-slide-in" [style.animation-delay]="i * 0.1 + 's'">
+        <div class="flex flex-col gap-3">
+          <!-- Task Info Row -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4">
+            <div class="flex items-start sm:items-center gap-3 sm:gap-4 flex-1 w-full">
+              <div class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-linear-to-br from-cyan-500 to-indigo-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg text-xs sm:text-sm">
+                {{ i + 1 }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <p [ngClass]="task.isComplete ? 'line-through text-slate-500' : 'text-slate-100'" class="text-sm sm:text-lg font-medium group-hover:text-white transition-colors duration-300 break-word">
+                  {{ task.task }}
+                </p>
+                <div class="flex flex-wrap gap-2 mt-1 text-xs sm:text-sm">
+                  <span class="text-slate-400">{{ getPriorityIcon(task.priority) }} {{ task.priority }}</span>
+                  <span class="text-slate-400">📁 {{ task.category }}</span>
+                  <span class="text-slate-500">⏱️ {{ task.timeRemaining || 'Created just now' }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="shrink-0">
+              <span *ngIf="!task.isExpired && !task.isComplete" class="inline-block px-2 sm:px-4 py-1 sm:py-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg whitespace-nowrap">📌 Active</span>
+              <span *ngIf="task.isComplete" class="inline-block px-2 sm:px-4 py-1 sm:py-2 bg-linear-to-r from-indigo-600 to-cyan-600 text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg whitespace-nowrap">✔️ Done</span>
+              <span *ngIf="task.isExpired" class="inline-block px-2 sm:px-4 py-1 sm:py-2 bg-linear-to-r from-rose-600 to-red-600 text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg whitespace-nowrap">⏰ Exp</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons Row -->
+          <div class="flex flex-wrap gap-2 items-center justify-start sm:justify-end pt-2 border-t border-slate-600">
+            <button
+              (click)="completeTask(task.id)"
+              [ngClass]="task.isComplete 
+                ? 'bg-linear-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 shadow-lg shadow-indigo-600/30' 
+                : 'bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-lg shadow-emerald-600/30'"
+              class="flex-1 sm:flex-auto px-3 sm:px-4 py-2 text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95"
+            >
+              {{ task.isComplete ? '↩️ Undo' : '✅ Complete' }}
+            </button>
+            <button
+              (click)="deleteTask(task.id)"
+              class="flex-1 sm:flex-auto px-3 sm:px-4 py-2 bg-linear-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg shadow-rose-600/30"
+            >
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tasks().length === 0" class="text-center py-12 sm:py-16 animate-fade-in">
+        <div class="mb-4 sm:mb-6 text-4xl sm:text-6xl animate-bounce">📭</div>
+        <h3 class="text-xl sm:text-2xl md:text-3xl font-bold bg-linear-to-r from-slate-300 to-slate-400 bg-clip-text text-transparent mb-2 sm:mb-3">No tasks yet</h3>
+        <p class="text-slate-400 text-sm sm:text-base md:text-lg">Start by adding your first task above! 🚀</p>
+      </div>
+    </div>
+  </div>
+</div>
